@@ -33,6 +33,9 @@ build/
 local.properties
 *.iml
 
+
+backend/node_modules/
+backend/.env
 # node.js
 #
 node_modules/
