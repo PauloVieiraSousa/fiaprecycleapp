@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -7,6 +7,8 @@ import useStyles from './styles';
 import { Card } from 'react-native-elements';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import colors from '../../styles/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { getShopAsync, selectShops } from '../../store/feature/shops/ShopsSlice';
 
 type StoresScreenProps = NativeStackScreenProps<RootStackParamList, 'Stores'>;
 
@@ -20,45 +22,18 @@ export type Store = {
 
 const StoresScreen = ({ route, navigation }: StoresScreenProps) => {
   const styles = useStyles();
+  const dispatch = useDispatch();
+  const {data, loading} = useSelector(selectShops);
 
-  const listStores: Store[] = [
-    {
-      name: "FIAP",
-      category: "University",
-      address: "www.fiap.com.br",
-      favorite: true
-    },
-    {
-      name: "FIAP",
-      category: "University",
-      address: "www.fiap.com.br",
-      favorite: true
-    },
-    {
-      name: "FIAP",
-      category: "University",
-      address: "www.fiap.com.br",
-      favorite: true
-    },
-    {
-      name: "FIAP",
-      category: "University",
-      address: "www.fiap.com.br",
-      favorite: true
-    },
-    {
-      name: "FIAP",
-      category: "University",
-      address: "www.fiap.com.br",
-      favorite: true
-    }
-  ]
+  useEffect(() => {
+      dispatch<any>(getShopAsync());
+  }, [dispatch])
+
     return (
         <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}}  colors={['#00C3B1', '#007C70']} style={styles.linearGradient}>
            
            <View style={styles.container}>
-
-             {listStores.map( (store, key) => (
+             {data?.map( (store, key) => (
                 <Card key={key} containerStyle={styles.cardStore}>
                   <View style={styles.viewCardContainer}>
                     <View style={styles.viewIcon}>

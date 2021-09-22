@@ -3,6 +3,7 @@ type User = {
     email: string  
 }
 
+
 type Wallet = {
     balance: number,
     address: string,
@@ -16,7 +17,7 @@ type Account = {
 }
 
 
-type Store = {
+type Shops = {
     name: string,
     category: string,
     address: string,

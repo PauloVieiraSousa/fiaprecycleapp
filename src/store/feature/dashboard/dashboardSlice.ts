@@ -1,16 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios";
 import { RootState } from "../..";
+import { instance } from "../../../services/AxiosInstance";
 
-const instance = axios.create({
-  baseURL: "http://192.168.56.1:9002"
-})
 
 
 export const getDashboardAsync = createAsyncThunk(
   "dashboard/getDashboard",
   async (param, thunkAPI) => {
-    debugger
+   
     const response = await instance.get('/api/dashboard');
     if (response.status === 400) {
       thunkAPI.rejectWithValue({message: 'Erro ao obter os dados'})

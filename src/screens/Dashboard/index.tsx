@@ -10,7 +10,7 @@ import { BasicData, CardBalance, HeaderText } from '../../components';
 import { ListItem, Button } from 'react-native-elements'
 import colors from '../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDashboardAsync, selectDashboard } from '../../store/feature/dashboard/dashboardSlice';
+import { getDashboardAsync, selectDashboard } from '../../store/feature/dashboard/DashboardSlice';
 
 type DashboardProps = NativeStackScreenProps<RootStackParamList, 'Dashboard'>;
 
@@ -32,8 +32,9 @@ const DashboardScreen = ({ route, navigation }: DashboardProps) => {
         }
     ]
 
+
     useEffect(() => {
-        dispatch(getDashboardAsync());
+        dispatch<any>(getDashboardAsync());
     }, [dispatch])
   
  

@@ -41,8 +41,7 @@ const CardBalance:React.FC<CardBalanceProps> = ({ title, balanceValue }: CardBal
 
                 <View style={{display: 'flex', flexDirection: 'row', alignContent: 'flex-end', alignItems: 'flex-end', justifyContent: 'center'}}>
                     <Text style={{ fontSize: 20, color: colors.black, paddingBottom: 10}}>ReC:</Text>
-                    <Text style={{ fontSize: 70, fontWeight: '700',  color: colors.black}}> {showBalance? 100 : "------"}</Text>
-                    <Text style={{ fontSize: 20,  color: colors.black, paddingBottom: 10}}>{showBalance? ".00000" : ""}</Text>
+                    <Text style={{ fontSize: 70, fontWeight: '700',  color: colors.black}}> {showBalance? balanceValue : "------"}</Text>
                 </View>
 
                 <View style={{display: 'flex', flexDirection: 'row'}}>

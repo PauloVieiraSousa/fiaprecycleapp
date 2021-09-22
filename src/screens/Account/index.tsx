@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {  StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -9,12 +9,36 @@ import { Avatar, Card } from 'react-native-elements';
 
 import useStyles from './styles';
 import colors from '../../styles/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAccountAsync, postAccountAsync, selectAccount } from '../../store/feature/account/AccountSlice';
+import { FormUser } from '../../types/FormUserType';
 
 
 type AccountScreenProps = NativeStackScreenProps<RootStackParamList, 'Account'>;
 
+
 const AccountScreen = ({ route, navigation }: AccountScreenProps) => {
   const styles = useStyles();
+
+    const dispatch = useDispatch();
+    const {data: account, loading} = useSelector(selectAccount);
+
+    const [user, setUser] = useState<FormUser>({name: "", email: "", password: ""});
+
+    useEffect(() => {
+      dispatch<any>(getAccountAsync())
+    }, [dispatch])
+
+    useEffect(() => {
+      if(account){
+        setUser({name: account.user.name, email: account.user.email, password: ""})
+      }
+    }, [account])
+
+
+    const changePersonalData = (formUser : FormUser) => {
+      dispatch(postAccountAsync(formUser)) 
+    }
 
 
     return (
@@ -32,16 +56,22 @@ const AccountScreen = ({ route, navigation }: AccountScreenProps) => {
               <View style={styles.viewGroupInputs}>
                   <Input
                     placeholder='Name'
+                    value={user?.name}
+                    onChangeText={(value) => setUser({...user, name: value})}
                     leftIcon={{ type: 'font-awesome', name: 'user' }}
                   />
 
         	        <Input
                     placeholder='Email'
+                    value={user?.email}
+                    onChangeText={(value) => setUser({...user, email: value})}
                     leftIcon={{ type: 'font-awesome', name: 'envelope' }}
                   />
 
                   <Input
                     placeholder='Password'
+                    value={user?.password}
+                    onChangeText={(value) => setUser({...user, password: value})}
                     secureTextEntry={true}
                     leftIcon={{ type: 'font-awesome', name: 'lock' }}
                   />
@@ -52,16 +82,16 @@ const AccountScreen = ({ route, navigation }: AccountScreenProps) => {
           <View style={styles.viewWallet}>
             <View style={styles.viewAddress}>
               <Text style={styles.label}>Wallet Address</Text>
-              <Text style={styles.dataText}>0xe04c689c5c0a3771488b970aad43cf2fdb989e9e</Text>
+              <Text style={styles.dataText}>{account?.wallet.address}</Text>
             </View>
             <View style={styles.viewSecret}>
               <Text style={styles.label}>Secret Recovery Phrase </Text>
-              <Text style={styles.dataText}>jealous expect hundred young unlock disagree major siren surge acoustic machine catalog</Text>
+              <Text style={styles.dataText}>{account?.wallet.mnemonics}</Text>
             </View>
           </View>
 
           <View style={styles.viewActions}>
-            <Button  type="outline" title="OK" containerStyle={styles.button}/>
+            <Button  type="outline" title="OK" containerStyle={styles.button} onPress={() => changePersonalData(user)} loading={loading === 'pending'}/>
           </View>
 
           </View>

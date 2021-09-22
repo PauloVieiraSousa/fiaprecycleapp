@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 60
     },
     viewWallet: {
-      marginTop: 120,
+      marginTop: 160,
       padding: 20
     },
     viewAddress: {
